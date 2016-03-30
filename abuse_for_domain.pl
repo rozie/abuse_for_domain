@@ -18,7 +18,15 @@ use Net::DNS;
 
 # read everything from STDIN
 while (<>){
-        if (/^(\S+)/){							# get only non-white characters at line start
+	chomp;
+	if (/^\d+\.\d+\.\d+\.\d+/) {					# IPv4 address
+		my $ip=$_;
+		my $abuse=get_abuse_email($ip);				# get abuse email
+		if (defined $abuse){					# only if got abuse email
+			print "$ip $ip $abuse\n";
+		}
+	}
+        elsif (/^(\S+)/){						# get only non-white characters at line start
 	        my $fqdn=$1;
         	my $ip_a="";
 
